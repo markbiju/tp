@@ -21,6 +21,7 @@
         "duration" : "PT3H"
       } ]
     },
+    "remark" : "",
     "tagged": [ "friends" ]
   }, {
     "name": "Alice Pauline",
@@ -43,6 +44,7 @@
         "time" : "12:00:00",
         "duration" : "PT3H"
       } ]
-    }
+    },
+    "remark" : ""
   } ]
 }

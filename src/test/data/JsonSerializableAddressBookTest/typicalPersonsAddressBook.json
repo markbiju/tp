@@ -22,6 +22,7 @@
         "duration" : "PT3H"
       } ]
     },
+    "remark" : "",
     "tagged" : [ "friends" ]
   }, {
     "name" : "Benson Meier",
@@ -45,6 +46,7 @@
         "duration" : "PT3H"
       } ]
     },
+    "remark" : "",
     "tagged" : [ "owesMoney", "friends" ]
   }, {
     "name" : "Carl Kurz",
@@ -68,6 +70,7 @@
         "duration" : "PT3H"
       } ]
     },
+    "remark" : "",
     "tagged" : [ ]
   }, {
     "name" : "Daniel Meier",
@@ -91,6 +94,7 @@
         "duration" : "PT3H"
       } ]
     },
+    "remark" : "",
     "tagged" : [ "friends" ]
   }, {
     "name" : "Elle Meyer",
@@ -114,6 +118,7 @@
         "duration" : "PT3H"
       } ]
     },
+    "remark" : "",
     "tagged" : [ ]
   }, {
     "name" : "Fiona Kunz",
@@ -137,6 +142,7 @@
         "duration" : "PT3H"
       } ]
     },
+    "remark" : "",
     "tagged" : [ ]
   }, {
     "name" : "George Best",
@@ -160,6 +166,7 @@
         "duration" : "PT3H"
       } ]
     },
+    "remark" : "",
     "tagged" : [ ]
   } ]
 }

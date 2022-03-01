@@ -16,6 +16,7 @@ import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.schedule.Schedule;
+import seedu.address.model.person.Remark;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -30,7 +31,9 @@ class JsonAdaptedPerson {
     private final String email;
     private final String address;
     private final Schedule schedule;
+    private final String remark;
     private final List<JsonAdaptedTag> tagged = new ArrayList<>();
+
 
     /**
      * Constructs a {@code JsonAdaptedPerson} with the given person details.
@@ -38,12 +41,14 @@ class JsonAdaptedPerson {
     @JsonCreator
     public JsonAdaptedPerson(@JsonProperty("name") String name, @JsonProperty("phone") String phone,
             @JsonProperty("email") String email, @JsonProperty("address") String address,
-            @JsonProperty("schedule") Schedule schedule,
-            @JsonProperty("tagged") List<JsonAdaptedTag> tagged) {
+            @JsonProperty("schedule") Schedule schedule, @JsonProperty("remark") String remark,
+            @JsonProperty("tagged") List<JsonAdaptedTag> tagged)
+    {
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.address = address;
+        this.remark = remark;
         this.schedule = schedule;
         if (tagged != null) {
             this.tagged.addAll(tagged);
@@ -59,6 +64,7 @@ class JsonAdaptedPerson {
         email = source.getEmail().value;
         address = source.getAddress().value;
         schedule = source.getSchedule();
+        remark = source.getRemark().value;
         tagged.addAll(source.getTags().stream()
                 .map(JsonAdaptedTag::new)
                 .collect(Collectors.toList()));
@@ -107,6 +113,11 @@ class JsonAdaptedPerson {
         }
         final Address modelAddress = new Address(address);
 
+        if (remark == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Remark.class.getSimpleName()));
+        }
+
+        final Remark modelRemark = new Remark(remark);
         if (schedule == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
                     Schedule.class.getSimpleName()));
@@ -118,7 +129,7 @@ class JsonAdaptedPerson {
 
         final Set<Tag> modelTags = new HashSet<>(personTags);
 
-        return new Person(modelName, modelPhone, modelEmail, modelAddress, modelSchedule, modelTags);
+        return new Person(modelName, modelPhone, modelEmail, modelAddress, modelSchedule, modelRemark, modelTags);
     }
 
 }

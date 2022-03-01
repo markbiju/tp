@@ -10,6 +10,7 @@ import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.schedule.Schedule;
+import seedu.address.model.person.Remark;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.util.SampleDataUtil;
 
@@ -22,12 +23,14 @@ public class PersonBuilder {
     public static final String DEFAULT_PHONE = "85355255";
     public static final String DEFAULT_EMAIL = "amy@gmail.com";
     public static final String DEFAULT_ADDRESS = "123, Jurong West Ave 6, #08-111";
+    public static final String DEFAULT_REMARK = "She likes aardvarks.";
 
     private Name name;
     private Phone phone;
     private Email email;
     private Address address;
     private Schedule schedule;
+    private Remark remark;
     private Set<Tag> tags;
 
     /**
@@ -39,6 +42,7 @@ public class PersonBuilder {
         email = new Email(DEFAULT_EMAIL);
         address = new Address(DEFAULT_ADDRESS);
         schedule = new Schedule(new ArrayList<>());
+        remark = new Remark(DEFAULT_REMARK);
         tags = new HashSet<>();
     }
 
@@ -51,6 +55,7 @@ public class PersonBuilder {
         email = personToCopy.getEmail();
         address = personToCopy.getAddress();
         schedule = new Schedule(personToCopy.getSchedule().getEvents());
+        remark = personToCopy.getRemark();
         tags = new HashSet<>(personToCopy.getTags());
     }
 
@@ -95,6 +100,14 @@ public class PersonBuilder {
     }
 
     /**
+     * Sets the {@code Remark} of the {@code Person} that we are building.
+     */
+    public PersonBuilder withRemark(String remark) {
+        this.remark = new Remark(remark);
+        return this;
+    }
+
+    /**
      * Parses the {@code schedule} into a {@code Schedule} and set it to the {@code Person} that we are building.
      */
     public PersonBuilder withSchedule(Schedule schedule) {
@@ -103,7 +116,7 @@ public class PersonBuilder {
     }
 
     public Person build() {
-        return new Person(name, phone, email, address, schedule, tags);
+        return new Person(name, phone, email, address, schedule, remark,  tags);
     }
 
 }
