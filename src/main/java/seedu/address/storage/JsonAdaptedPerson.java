@@ -16,9 +16,10 @@ import seedu.address.model.person.GitHub;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
+import seedu.address.model.person.Tag;
 import seedu.address.model.person.Telegram;
 import seedu.address.model.schedule.Schedule;
-import seedu.address.model.tag.Tag;
+
 
 /**
  * Jackson-friendly version of {@link Person}.
@@ -33,7 +34,7 @@ class JsonAdaptedPerson {
     private final String github;
     private final String email;
     private final String address;
-    private final Schedule schedule;
+    private final JsonAdaptedSchedule schedule;
     private final List<JsonAdaptedTag> tagged = new ArrayList<>();
 
     /**
@@ -42,8 +43,8 @@ class JsonAdaptedPerson {
     @JsonCreator
     public JsonAdaptedPerson(@JsonProperty("name") String name, @JsonProperty("phone") String phone,
             @JsonProperty("telegram") String telegram, @JsonProperty("github") String github,
-                             @JsonProperty("email") String email, @JsonProperty("address") String address,
-            @JsonProperty("schedule") Schedule schedule,
+            @JsonProperty("email") String email, @JsonProperty("address") String address,
+            @JsonProperty("schedule") JsonAdaptedSchedule schedule,
             @JsonProperty("tagged") List<JsonAdaptedTag> tagged) {
         this.name = name;
         this.phone = phone;
@@ -58,16 +59,17 @@ class JsonAdaptedPerson {
     }
 
     /**
-     * Converts a given {@code Person} into this class for Jackson use.
+     * Constructs a {@code JsonAdaptedPerson} using the attributes of the given {@code Person} for Jackson use.
      */
     public JsonAdaptedPerson(Person source) {
-        name = source.getName().fullName;
+        name = source.getName().value;
         phone = source.getPhone().value;
         telegram = source.getTelegram().value;
         github = source.getGithub().value;
         email = source.getEmail().value;
         address = source.getAddress().value;
-        schedule = source.getSchedule();
+        schedule = new JsonAdaptedSchedule(source.getSchedule().getEvents()
+                .stream().map(JsonAdaptedEvent::new).collect(Collectors.toList()));
         tagged.addAll(source.getTags().stream()
                 .map(JsonAdaptedTag::new)
                 .collect(Collectors.toList()));
@@ -138,10 +140,7 @@ class JsonAdaptedPerson {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
                     Schedule.class.getSimpleName()));
         }
-        if (!Schedule.isValidSchedule(schedule)) {
-            throw new IllegalValueException(Schedule.MESSAGE_CONSTRAINTS);
-        }
-        final Schedule modelSchedule = schedule;
+        final Schedule modelSchedule = schedule.toModelType();
 
         final Set<Tag> modelTags = new HashSet<>(personTags);
 

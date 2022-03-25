@@ -16,9 +16,6 @@ public class Schedule {
     public static final Schedule EMPTY_SCHEDULE = new Schedule(new ArrayList<>());
     private final List<Event> events = new ArrayList<>();
 
-    private Schedule() {
-    }
-
     /**
      * Every field must be present and not null.
      */
@@ -47,7 +44,7 @@ public class Schedule {
     }
 
     /**
-     * Returns true if the given event is valid.
+     * Returns true if the given schedule is valid.
      */
     public static boolean isValidSchedule(Schedule schedule) {
         for (Event event : schedule.getEvents()) {

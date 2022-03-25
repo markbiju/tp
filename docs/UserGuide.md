@@ -16,16 +16,17 @@ and you can type fast, UniGenda can get your contact management tasks done faste
    4. [Editing a person](#editing-a-person--edit)
    5. [Locating persons by name](#locating-persons-by-name-find)
    6. [Deleting a person](#deleting-a-person--delete)
-   7. [Viewing a person](#viewing-a-person--view)
+   7. [Viewing a person's schedule](#viewing-a-persons-schedule-viewschedule)
    8. [Viewing contacts by tags](#viewing-contacts-by-tags-viewgroup)
    9. [Adding a person's schedule](#adding-a-persons-schedule-addevent)
    10. [Editing a person's schedule](#editing-a-persons-schedule-editevent)
    11. [Deleting a person's schedule](#deleting-a-persons-schedule-deleteevent)
    12. [Getting persons who are free](#getting-persons-who-are-free-freeschedule)
-   13. [Clearing all entries](#clearing-all-entries--clear)
-   14. [Exiting the program](#exiting-the-program--exit)
-   15. [Saving the data](#saving-the-data)
-   16. [Editing the data file](#editing-the-data-file)
+   13. [Exporting a person's schedule](#exporting-a-persons-schedule-export)
+   14. [Clearing all entries](#clearing-all-entries--clear)
+   15. [Exiting the program](#exiting-the-program--exit)
+   16. [Saving the data](#saving-the-data)
+   17. [Editing the data file](#editing-the-data-file)
 3. [Coming Soon](#coming-soon-v13)
    1. [Viewing Schedule](#viewing-a-persons-schedule-viewschedule)
    2. [Getting common free timing of persons by tag](#getting-common-free-timing-of-persons-by-tag-findcommontiming)
@@ -126,6 +127,7 @@ Format: `edit INDEX [n/NAME] [p/PHONE] [tg/TELEGRAM] [gh/GITHUB] [e/EMAIL] [a/AD
 * When editing tags, the existing tags of the person will be removed i.e adding of tags is not cumulative.
 * You can remove all the person’s tags by typing `t/` without
   specifying any tags after it.
+* You can also remove telegram, github, email, or address by typing its corresponding prefix without specifying anything after it.
 
 Examples:
 *  `edit 1 p/91234567 e/johndoe@example.com` Edits the phone number and email address of the 1st person to be `91234567` and `johndoe@example.com` respectively.
@@ -163,20 +165,21 @@ Examples:
 * `list` followed by `delete 2` deletes the 2nd person in UniGenda.
 * `find Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
 
-### Viewing a person : `view`
+### Viewing a person : `viewSchedule`
 
-Views the specified person from UniGenda.
+Views the specified person's Schedule from UniGenda.
 
-Format: `view INDEX`
+Format: `viewSchedule INDEX`
 
-* Views the person at the specified `INDEX`.
+* Views the person's schedule at the specified `INDEX`.
+* The view will be displayed in the right panel of UniGenda.
 * The index refers to the index number shown in the displayed person list.
 * The index **must be a positive integer** 1, 2, 3, …​
 
 Examples:
-* `list` followed by `view 4` views the 4th person in UniGenda.
+* `list` followed by `viewSchedule 4` views the 4th person in UniGenda.
   ![result for 'view 4'](images/viewResult.png)
-* `find Betsy` followed by `view 1` views the 1st person in the results of the `find` command.
+* `find Betsy` followed by `viewSchedule 1` views the 1st person in the results of the `find` command.
 
 
 ### Viewing contacts by tags: `viewGroup`
@@ -200,20 +203,16 @@ Format: `addEvent INDEX ed/EVENT_DESCRIPTION da/DATE [ti/TIME] [du/DURATION] [r/
 * TIME should be in "HH:MM" format
 * DURATION should be in one of the following formats, where X and Y are integer values representing the hours and minutes respectively(not case-sensitive):
   * XHYM
-  * XHY
   * XH
   * YM
   * X
-  * RECUR_FREQUENCY, if provided, must be one of the following values:
+* RECUR_FREQUENCY, if provided, must be one of the following values:
 
-    | Value | Frequency    |
-    |-------|--------------|
-    | `D`   | Daily        |
-    | `W`   | Weekly       |
-    | `B`   | Biweekly     |
-    | `M`   | Monthly      |
-
-
+| Value           | Frequency |
+|-----------------|-----------|
+| `D`, `Daily`    | Daily     |
+| `W`, `Weekly`   | Weekly    |
+| `B`, `Biweekly` | Biweekly  |
 
 Examples:
 * `addEvent 3 ed/Open House da/2022-12-20`
@@ -223,6 +222,7 @@ Examples:
 Edits the schedule assigned to a person.
 
 Format: `editEvent INDEX EVENT_INDEX [ed/EVENT_DESCRIPTION] [da/DATE] [ti/TIME] [du/DURATION] [r/RECUR_FREQUENCY]`
+
 * Edits an event assigned to a person.
 * At least one of the optional fields must be provided
 * DATE should be in "YYYY-MM-DD" format
@@ -232,6 +232,13 @@ Format: `editEvent INDEX EVENT_INDEX [ed/EVENT_DESCRIPTION] [da/DATE] [ti/TIME] 
   * XHY
   * XH
   * X
+* RECUR_FREQUENCY, if provided, must be one of the following values:
+
+| Value           | Frequency |
+|-----------------|-----------|
+| `D`, `Daily`    | Daily     |
+| `W`, `Weekly`   | Weekly    |
+| `B`, `Biweekly` | Biweekly  |
   
 Example:
 * `editEvent 3 3 da/2022-12-21`
@@ -248,6 +255,7 @@ Format: `deleteEvent INDEX EVENT_INDEX`
 Example:
 * `deleteEvent 3 3`
 
+### Getting persons who are free: `freeSchedule`
 Format: `freeSchedule ti/TIME [da/ DATE]`
 * Shows the persons who are free at the time specified today
 * Shows the persons who are free at the time on the date specified
@@ -260,6 +268,14 @@ Format: `freeSchedule ti/TIME [da/ DATE]`
 Examples:
 * `freeSchedule ti/ 12:00`
 * `freeSchedule ti/ 14:00 da/2022-02-14`
+
+### Exporting a person's schedule: `export`
+Format: `export INDEX`
+* Allows user to export schedule of person at specified index
+* INDEX refers to the index number shown in the displayed person list. The index must be a positive integer 1, 2, …
+
+Examples:
+* `export 1`
 
 ### Clearing all entries : `clear`
 
@@ -286,8 +302,7 @@ If your changes to the data file makes its format invalid, UniGenda
 will discard all data and start with an empty data file at the next run.
 </div>
 
-##*Coming Soon...* (v1.3)
-
+###*Coming Soon...* (v1.3)
 ### Viewing a person’s schedule: `viewSchedule`
 Shows the schedule of a specified person.
 
@@ -299,7 +314,6 @@ Format: `viewSchedule INDEX`
 Example:
 * `viewSchedule 5`
 
-
 ### Getting common free timing of persons by tag: `findCommonTiming`
 Gets the common timings of persons who are free with the same tag.
 
@@ -308,7 +322,6 @@ Format: `findCommonTiming t/TAG`
 
 Example:
 * `findCommonTiming t/groupmates`
-
 --------------------------------------------------------------------------------------------------------------------
 
 ## FAQ
@@ -331,7 +344,8 @@ Example:
 | **EditEvent**         | `editEvent INDEX EVENT_INDEX [ed/EVENT_DESCRIPTION] [da/DATE] [ti/TIME] [du/DURATION] [t/TAG]` <br> e.g., `editEvent 3 1 ed/CS2103T tutorial da/18-12-2022 ti/1400 du/2`  |
 | **DeleteEvent**       | `deleteEvent INDEX EVENT_NUMBER` <br> e.g., `deleteEvent 3 3`                                                                                                             |
 | **FreeSchedule**      | `freeSchedule ti/TIME [da/DATE]`<br> e.g., `freeSchedule ti/10:00 da/2022-03-14`                                                                                          | 
-| **ViewGroup**         | `viewGroup t/TAG`<br> e.g., `viewGroup t/groupmates`                                                                                                                      | 
+| **ViewGroup**         | `viewGroup t/TAG`<br> e.g., `viewGroup t/groupmates`
 | **Find**              | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`                                                                                                                |
 | **List**              | `list`                                                                                                                                                                    |
 | **Help**              | `help`                                                                                                                                                                    |
+
